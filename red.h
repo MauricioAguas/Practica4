@@ -1,18 +1,21 @@
 #ifndef RED_H
-#define RED_
+#define RED_H
 
 #include "enrutador.h"
+#include <map>
+#include <list>
+#include <string>
 
-// agregar librerias faltantes...
+using namespace std;
 
 // Clase para modelar la Red
 class Red
 {
 private:
-    // elegir contenedor adecuado para guardar los enrutadores de la red
-    ... enrutadores;
-    // elegir contenedor adecuado para guardar las tablas de enrutamiento de cada enrutador
-    ... tablasEnrutamiento;
+    // map<nombre, Enrutador> para guardar todos los enrutadores de la red
+    map<string, Enrutador> enrutadores;
+    // map<origen, map<destino, costo>> para guardar las tablas de enrutamiento de cada enrutador
+    map<string, map<string, int>> tablasEnrutamiento;
 
 public:
     // Constructores y destructor
@@ -46,9 +49,8 @@ public:
     // Obtener el costo entre dos enrutadores
     int obtenerCosto(const string &origen, const string &destino);
 
-    // Obtener el camino eficiente entre dos enrutadores
-    // debe aoperar con el mismo tipo de dato que se usó para guardar las rutas en las tablas de enrutamiento
-    ... obtenerCamino(const string &origen, const string &destino);
+    // Obtener el camino eficiente entre dos enrutadores como lista de nodos
+    list<string> obtenerCamino(const string &origen, const string &destino);
 
     // Mostrar la tabla de enrutamiento para un enrutador específico
     void mostrarTablaEnrutamiento(const string &nombre);
