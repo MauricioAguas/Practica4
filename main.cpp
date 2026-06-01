@@ -37,6 +37,8 @@ int main()
             cout << "Nombre del enrutador: ";
             cin >> nombre;
             red.agregarEnrutador(nombre);
+            // Recalcular tablas para incluir el nuevo enrutador
+            red.actualizarTablas();
             cout << "Enrutador '" << nombre << "' agregado.\n";
             break;
 
@@ -44,6 +46,8 @@ int main()
             cout << "Nombre del enrutador a remover: ";
             cin >> nombre;
             red.removerEnrutador(nombre);
+            // Recalcular tablas tras eliminar el enrutador
+            red.actualizarTablas();
             cout << "Enrutador '" << nombre << "' removido.\n";
             break;
 
@@ -55,6 +59,8 @@ int main()
             cout << "Costo del enlace: ";
             cin >> costo;
             red.agregarEnlace(origen, destino, costo);
+            // Recalcular tablas tras agregar el enlace
+            red.actualizarTablas();
             break;
 
         case 4: // Eliminar enlace
@@ -63,6 +69,8 @@ int main()
             cout << "Enrutador destino: ";
             cin >> destino;
             red.eliminarEnlace(origen, destino);
+            // Recalcular tablas tras eliminar el enlace
+            red.actualizarTablas();
             cout << "Enlace entre '" << origen << "' y '" << destino << "' eliminado.\n";
             break;
 
@@ -74,10 +82,13 @@ int main()
             cout << "Nuevo costo: ";
             cin >> costo;
             red.actualizarCosto(origen, destino, costo);
+            // Recalcular tablas tras actualizar el costo del enlace
+            red.actualizarTablas();
             cout << "Costo actualizado.\n";
             break;
 
         case 6: // Cargar topología desde archivo
+            // cargarDesdeArchivo ya llama actualizarTablas() internamente
             cout << "Nombre del archivo: ";
             cin >> archivo;
             red.cargarDesdeArchivo(archivo);
