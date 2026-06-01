@@ -1,11 +1,5 @@
 #include "enrutador.h"
 
-// Constructor por defecto
-Enrutador::Enrutador() : nombre("") {}
-
-// Constructor con nombre
-Enrutador::Enrutador(const string &nombre) : nombre(nombre) {}
-
 // Agrega un enlace directo hacia 'destino' con el costo dado
 // Si ya existe, actualiza el costo
 void Enrutador::agregarEnlace(const string &destino, int costo) {

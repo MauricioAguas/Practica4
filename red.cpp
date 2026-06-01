@@ -7,9 +7,6 @@
 
 using namespace std;
 
-// Constructor por defecto
-Red::Red() {}
-
 // Agrega un nuevo enrutador a la red con el nombre dado
 // Si ya existe, no hace nada
 void Red::agregarEnrutador(const string &nombre) {
