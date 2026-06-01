@@ -1,0 +1,17 @@
+# Topologia 1: Red simple de 4 enrutadores (ejemplo de la guia del profesor)
+# Corresponde a la figura 1 de la practica con enrutadores A, B, C, D
+
+# Definicion de enrutadores
+enrutador A
+enrutador B
+enrutador C
+enrutador D
+
+# Definicion de enlaces con sus costos
+# formato: enlace <origen> <destino> <costo>
+enlace A B 4
+enlace A C 10
+enlace A D 5
+enlace B C 3
+enlace B D 1
+enlace C D 2

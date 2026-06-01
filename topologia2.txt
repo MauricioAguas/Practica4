@@ -1,0 +1,22 @@
+# Topologia 2: Red mas grande de 6 enrutadores
+# Simula una red con multiples rutas alternativas entre nodos
+
+# Definicion de enrutadores
+enrutador R1
+enrutador R2
+enrutador R3
+enrutador R4
+enrutador R5
+enrutador R6
+
+# Definicion de enlaces con sus costos
+# formato: enlace <origen> <destino> <costo>
+enlace R1 R2 7
+enlace R1 R3 9
+enlace R1 R6 14
+enlace R2 R3 10
+enlace R2 R4 15
+enlace R3 R4 11
+enlace R3 R6 2
+enlace R4 R5 6
+enlace R5 R6 9
