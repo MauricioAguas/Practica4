@@ -1,7 +1,6 @@
 #include <iostream> // Inclusión de la biblioteca estándar de entrada y salida
+#include <list>     // Inclusión de la biblioteca list para representar caminos
 #include "red.h"    // Inclusión del archivo de encabezado "red.h" que contiene la definición de la clase Red
-
-// agregar librerias faltantes...
 
 using namespace std; // Uso del espacio de nombres estándar para evitar prefijos "std::"
 
@@ -35,38 +34,99 @@ int main()
         switch (opcion)
         {
         case 1: // Agregar enrutador
-            // agregar lógica faltante...
+            cout << "Nombre del enrutador: ";
+            cin >> nombre;
+            red.agregarEnrutador(nombre);
+            cout << "Enrutador '" << nombre << "' agregado.\n";
             break;
+
         case 2: // Remover enrutador
-            // agregar lógica faltante...
+            cout << "Nombre del enrutador a remover: ";
+            cin >> nombre;
+            red.removerEnrutador(nombre);
+            cout << "Enrutador '" << nombre << "' removido.\n";
             break;
+
         case 3: // Agregar enlace
-            // agregar lógica faltante...
+            cout << "Enrutador origen: ";
+            cin >> origen;
+            cout << "Enrutador destino: ";
+            cin >> destino;
+            cout << "Costo del enlace: ";
+            cin >> costo;
+            red.agregarEnlace(origen, destino, costo);
             break;
+
         case 4: // Eliminar enlace
-            // agregar lógica faltante...
+            cout << "Enrutador origen: ";
+            cin >> origen;
+            cout << "Enrutador destino: ";
+            cin >> destino;
+            red.eliminarEnlace(origen, destino);
+            cout << "Enlace entre '" << origen << "' y '" << destino << "' eliminado.\n";
             break;
+
         case 5: // Actualizar costo de enlace
-            // agregar lógica faltante...
+            cout << "Enrutador origen: ";
+            cin >> origen;
+            cout << "Enrutador destino: ";
+            cin >> destino;
+            cout << "Nuevo costo: ";
+            cin >> costo;
+            red.actualizarCosto(origen, destino, costo);
+            cout << "Costo actualizado.\n";
             break;
+
         case 6: // Cargar topología desde archivo
-            // agregar lógica faltante...
+            cout << "Nombre del archivo: ";
+            cin >> archivo;
+            red.cargarDesdeArchivo(archivo);
             break;
+
         case 7: // Mostrar tabla de enrutamiento
-            // agregar lógica faltante...
+            cout << "Nombre del enrutador: ";
+            cin >> nombre;
+            red.mostrarTablaEnrutamiento(nombre);
             break;
+
         case 8: // Obtener costo entre dos enrutadores
-            // agregar lógica faltante...
+            cout << "Enrutador origen: ";
+            cin >> origen;
+            cout << "Enrutador destino: ";
+            cin >> destino;
+            costo = red.obtenerCosto(origen, destino);
+            // Si el costo es -1, no hay camino entre los enrutadores
+            if (costo == -1)
+                cout << "No hay camino entre '" << origen << "' y '" << destino << "'.\n";
+            else
+                cout << "Costo de '" << origen << "' a '" << destino << "': " << costo << "\n";
             break;
+
         case 9: // Obtener camino eficiente entre dos enrutadores
-            // agregar lógica faltante...
+            cout << "Enrutador origen: ";
+            cin >> origen;
+            cout << "Enrutador destino: ";
+            cin >> destino;
+            {
+                // Obtener el camino como lista de nodos y mostrarlo
+                list<string> camino = red.obtenerCamino(origen, destino);
+                if (camino.empty()) {
+                    cout << "No hay camino entre '" << origen << "' y '" << destino << "'.\n";
+                } else {
+                    cout << "Camino: ";
+                    for (const string &nodo : camino)
+                        cout << nodo << " ";
+                    cout << "\n";
+                }
+            }
             break;
+
         case 0: // Salir
             cout << "Saliendo...\n";
             break;
+
         default: // Opción inválida
-            cout << "Opcion inválida.\n";
-            clearScreen();
+            cout << "Opcion invalida.\n";
         }
     } while (opcion != 0);
 
