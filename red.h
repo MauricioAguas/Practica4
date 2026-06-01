@@ -6,16 +6,20 @@
 #include <list>
 #include <string>
 
+// agregar librerias faltantes...
+
 using namespace std;
 
 // Clase para modelar la Red
 class Red
 {
 private:
-    // map<nombre, Enrutador> para guardar todos los enrutadores de la red
+    // map<nombre, Enrutador> para guardar los enrutadores de la red
     map<string, Enrutador> enrutadores;
     // map<origen, map<destino, costo>> para guardar las tablas de enrutamiento de cada enrutador
     map<string, map<string, int>> tablasEnrutamiento;
+    // map<origen, map<destino, list<string>>> para guardar los caminos completos entre enrutadores
+    map<string, map<string, list<string>>> tablasCaminos;
 
 public:
     // Constructores y destructor
@@ -38,18 +42,20 @@ public:
     void actualizarCosto(const string &origen, const string &destino, int nuevoCosto);
 
     // Cargar la topología desde un archivo
+    // Formato esperado: "enrutador <nombre>" o "enlace <origen> <destino> <costo>"
     void cargarDesdeArchivo(const string &nombreArchivo);
 
-    // Algoritmo de Dijkstra para calcular rutas y costos
+    // Algoritmo de Dijkstra para calcular rutas y costos desde un origen
     void dijkstra(const string &origen);
 
-    // Actualizar todas las tablas de enrutamiento
+    // Actualizar todas las tablas de enrutamiento (ejecuta Dijkstra para cada nodo)
     void actualizarTablas();
 
-    // Obtener el costo entre dos enrutadores
+    // Obtener el costo entre dos enrutadores (-1 si no hay camino)
     int obtenerCosto(const string &origen, const string &destino);
 
-    // Obtener el camino eficiente entre dos enrutadores como lista de nodos
+    // Obtener el camino eficiente entre dos enrutadores
+    // Retorna una lista de nodos que conforman el camino más corto
     list<string> obtenerCamino(const string &origen, const string &destino);
 
     // Mostrar la tabla de enrutamiento para un enrutador específico
