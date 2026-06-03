@@ -4,6 +4,8 @@
 #include <sstream>
 #include <queue>
 #include <climits>
+#include <cstdlib>  // para rand() y srand()
+#include <ctime>    // para time()
 
 using namespace std;
 
@@ -264,4 +266,78 @@ void Red::mostrarTablaEnrutamiento(const string &nombre) {
             cout << "\n";
         }
     }
+}
+
+// Muestra los vecinos directos de un enrutador y el costo de cada enlace
+// Si el enrutador no existe, muestra un error
+void Red::verEnrutador(const string &nombre) {
+    if (enrutadores.find(nombre) == enrutadores.end()) {
+        cout << "Error: enrutador '" << nombre << "' no existe. ";
+        cout << "Recuerde que los nombres son sensibles a mayusculas ('A' != 'a')." << endl;
+        return;
+    }
+    cout << "\nEnrutador '" << nombre << "' - enlaces directos:\n";
+    const map<string, int> &enlaces = enrutadores[nombre].getEnlaces();
+    // Verificar si el enrutador tiene vecinos
+    if (enlaces.empty()) {
+        cout << "  Sin enlaces directos.\n";
+        return;
+    }
+    // Imprimir cada vecino y su costo
+    for (const auto &par : enlaces) {
+        cout << "  -> " << par.first << " (costo: " << par.second << ")\n";
+    }
+}
+
+// Genera una red aleatoria con n enrutadores (A, B, C...) y enlaces aleatorios
+// Cada enrutador queda conectado al menos con un vecino
+// El numero de enrutadores debe estar entre 2 y 25
+void Red::redAleatoria(int n) {
+    // Validar rango permitido
+    if (n < 2 || n > 25) {
+        cout << "Error: el numero de enrutadores debe estar entre 2 y 25." << endl;
+        return;
+    }
+    // Limpiar la red actual antes de generar la nueva
+    enrutadores.clear();
+    tablasEnrutamiento.clear();
+    tablasCaminos.clear();
+
+    // Agregar n enrutadores con nombres A, B, C...
+    for (int i = 0; i < n; i++) {
+        string nombre(1, (char)('A' + i));
+        agregarEnrutador(nombre);
+    }
+
+    // Inicializar semilla aleatoria
+    srand(time(nullptr));
+
+    // Garantizar al menos un enlace por enrutador hacia un vecino aleatorio distinto
+    for (int i = 0; i < n; i++) {
+        string origen(1, (char)('A' + i));
+        int j;
+        // Elegir un vecino distinto al origen
+        do {
+            j = rand() % n;
+        } while (j == i);
+        string destino(1, (char)('A' + j));
+        int costo = 1 + rand() % 100; // costo entre 1 y 100
+        agregarEnlace(origen, destino, costo);
+    }
+
+    // Agregar enlaces adicionales aleatorios con probabilidad 1/5
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (rand() % 5 == 0) {
+                string origen(1, (char)('A' + i));
+                string destino(1, (char)('A' + j));
+                int costo = 1 + rand() % 100;
+                agregarEnlace(origen, destino, costo);
+            }
+        }
+    }
+
+    // Recalcular todas las tablas con la nueva topologia
+    actualizarTablas();
+    cout << "Red aleatoria generada con " << n << " enrutadores. Tablas actualizadas." << endl;
 }

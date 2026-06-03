@@ -22,13 +22,15 @@ int main()
         cout << "7. Mostrar tabla de enrutamiento\n";
         cout << "8. Obtener costo entre dos enrutadores\n";
         cout << "9. Obtener camino eficiente entre dos enrutadores\n";
+        cout << "10. Ver enlaces directos de un enrutador\n";
+        cout << "11. Generar red aleatoria\n";
         cout << "0. Salir\n";
         cout << "Seleccione una opcion: ";
         cin >> opcion;
 
         // Variables para almacenar datos de entrada del usuario
         string nombre, origen, destino, archivo;
-        int costo;
+        int costo, n;
 
         // Procesar la opción seleccionada por el usuario
         switch (opcion)
@@ -48,7 +50,6 @@ int main()
             red.removerEnrutador(nombre);
             // Recalcular tablas tras eliminar el enrutador
             red.actualizarTablas();
-            cout << "Enrutador '" << nombre << "' removido.\n";
             break;
 
         case 3: // Agregar enlace
@@ -130,6 +131,18 @@ int main()
                     cout << "\n";
                 }
             }
+            break;
+
+        case 10: // Ver enlaces directos de un enrutador
+            cout << "Nombre del enrutador: ";
+            cin >> nombre;
+            red.verEnrutador(nombre);
+            break;
+
+        case 11: // Generar red aleatoria
+            cout << "Cantidad de enrutadores [2-25]: ";
+            cin >> n;
+            red.redAleatoria(n);
             break;
 
         case 0: // Salir

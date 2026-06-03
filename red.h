@@ -60,6 +60,13 @@ public:
 
     // Mostrar la tabla de enrutamiento para un enrutador específico
     void mostrarTablaEnrutamiento(const string &nombre);
+
+    // Mostrar los vecinos directos y costos de un enrutador especifico
+    void verEnrutador(const string &nombre);
+
+    // Generar una red aleatoria con n enrutadores y enlaces aleatorios
+    // El numero de enrutadores debe estar entre 2 y 25
+    void redAleatoria(int n);
 };
 
 #endif // RED_H
