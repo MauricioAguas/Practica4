@@ -7,6 +7,9 @@
 
 using namespace std;
 
+// Nota: los nombres de enrutadores son sensibles a mayusculas y minusculas.
+// 'A' y 'a' se tratan como enrutadores distintos.
+
 // Agrega un nuevo enrutador a la red con el nombre dado
 // Si ya existe, no hace nada
 void Red::agregarEnrutador(const string &nombre) {
@@ -16,27 +19,36 @@ void Red::agregarEnrutador(const string &nombre) {
 }
 
 // Remueve un enrutador de la red y todos sus enlaces asociados
+// Si no existe, muestra un mensaje de error indicando sensibilidad a mayusculas
 void Red::removerEnrutador(const string &nombre) {
+    // Verificar que el enrutador existe antes de intentar eliminarlo
+    if (enrutadores.find(nombre) == enrutadores.end()) {
+        cout << "Error: enrutador '" << nombre << "' no existe. ";
+        cout << "Recuerde que los nombres son sensibles a mayusculas ('A' != 'a')." << endl;
+        return;
+    }
     // Eliminar el enrutador del mapa
     enrutadores.erase(nombre);
     // Eliminar su tabla de enrutamiento y sus caminos
     tablasEnrutamiento.erase(nombre);
     tablasCaminos.erase(nombre);
-    // Eliminar enlaces que apunten hacia él desde otros enrutadores
+    // Eliminar enlaces que apunten hacia el desde otros enrutadores
     for (auto &par : enrutadores) {
         par.second.eliminarEnlace(nombre);
     }
 }
 
 // Agrega un enlace bidireccional entre origen y destino con el costo dado
-// Si alguno de los enrutadores no existe, muestra un error
+// Si alguno de los enrutadores no existe, muestra un error indicando sensibilidad a mayusculas
 void Red::agregarEnlace(const string &origen, const string &destino, int costo) {
     if (enrutadores.find(origen) == enrutadores.end()) {
-        cout << "Error: enrutador '" << origen << "' no existe." << endl;
+        cout << "Error: enrutador '" << origen << "' no existe. ";
+        cout << "Recuerde que los nombres son sensibles a mayusculas ('A' != 'a')." << endl;
         return;
     }
     if (enrutadores.find(destino) == enrutadores.end()) {
-        cout << "Error: enrutador '" << destino << "' no existe." << endl;
+        cout << "Error: enrutador '" << destino << "' no existe. ";
+        cout << "Recuerde que los nombres son sensibles a mayusculas ('A' != 'a')." << endl;
         return;
     }
     enrutadores[origen].agregarEnlace(destino, costo);
@@ -44,23 +56,37 @@ void Red::agregarEnlace(const string &origen, const string &destino, int costo) 
 }
 
 // Elimina el enlace bidireccional entre origen y destino
+// Si alguno de los enrutadores no existe, muestra un error indicando sensibilidad a mayusculas
 void Red::eliminarEnlace(const string &origen, const string &destino) {
-    if (enrutadores.find(origen) != enrutadores.end()) {
-        enrutadores[origen].eliminarEnlace(destino);
+    if (enrutadores.find(origen) == enrutadores.end()) {
+        cout << "Error: enrutador '" << origen << "' no existe. ";
+        cout << "Recuerde que los nombres son sensibles a mayusculas ('A' != 'a')." << endl;
+        return;
     }
-    if (enrutadores.find(destino) != enrutadores.end()) {
-        enrutadores[destino].eliminarEnlace(origen);
+    if (enrutadores.find(destino) == enrutadores.end()) {
+        cout << "Error: enrutador '" << destino << "' no existe. ";
+        cout << "Recuerde que los nombres son sensibles a mayusculas ('A' != 'a')." << endl;
+        return;
     }
+    enrutadores[origen].eliminarEnlace(destino);
+    enrutadores[destino].eliminarEnlace(origen);
 }
 
 // Actualiza el costo del enlace bidireccional entre origen y destino
+// Si alguno de los enrutadores no existe, muestra un error indicando sensibilidad a mayusculas
 void Red::actualizarCosto(const string &origen, const string &destino, int nuevoCosto) {
-    if (enrutadores.find(origen) != enrutadores.end()) {
-        enrutadores[origen].actualizarCosto(destino, nuevoCosto);
+    if (enrutadores.find(origen) == enrutadores.end()) {
+        cout << "Error: enrutador '" << origen << "' no existe. ";
+        cout << "Recuerde que los nombres son sensibles a mayusculas ('A' != 'a')." << endl;
+        return;
     }
-    if (enrutadores.find(destino) != enrutadores.end()) {
-        enrutadores[destino].actualizarCosto(origen, nuevoCosto);
+    if (enrutadores.find(destino) == enrutadores.end()) {
+        cout << "Error: enrutador '" << destino << "' no existe. ";
+        cout << "Recuerde que los nombres son sensibles a mayusculas ('A' != 'a')." << endl;
+        return;
     }
+    enrutadores[origen].actualizarCosto(destino, nuevoCosto);
+    enrutadores[destino].actualizarCosto(origen, nuevoCosto);
 }
 
 // Carga la topologia desde un archivo de texto
@@ -210,7 +236,8 @@ list<string> Red::obtenerCamino(const string &origen, const string &destino) {
 // Imprime destino, costo y camino completo para cada nodo alcanzable
 void Red::mostrarTablaEnrutamiento(const string &nombre) {
     if (enrutadores.find(nombre) == enrutadores.end()) {
-        cout << "Error: enrutador '" << nombre << "' no existe." << endl;
+        cout << "Error: enrutador '" << nombre << "' no existe. ";
+        cout << "Recuerde que los nombres son sensibles a mayusculas ('A' != 'a')." << endl;
         return;
     }
     if (tablasEnrutamiento.find(nombre) == tablasEnrutamiento.end()) {
